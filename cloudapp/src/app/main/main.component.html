@@ -1,0 +1,114 @@
+<div class="page">
+  <div class="header-row">
+    <div>
+      <h1>{{ 'Main.Title' | translate }}</h1>
+      <p class="intro">{{ 'Main.Intro' | translate }}</p>
+    </div>
+
+    <button
+      type="button"
+      class="pdf-button"
+      *ngIf="items.length"
+      [disabled]="loading || creatingPrint || !hasSelectedOutputColumns"
+      (click)="printOrSavePdf()">
+      {{ 'Main.PrintPdf' | translate }}
+    </button>
+  </div>
+
+  <div class="filters">
+    <label>
+      <span>{{ 'Main.Library' | translate }}</span>
+      <select
+        [(ngModel)]="selectedLibraryCode"
+        [disabled]="loadingLibraries || loading"
+        (ngModelChange)="onLibraryChange()">
+        <option value="">{{ 'Main.SelectLibrary' | translate }}</option>
+        <option *ngFor="let library of libraries" [value]="library.code">
+          {{ library.name }} ({{ library.code }})
+        </option>
+      </select>
+    </label>
+
+    <label>
+      <span>{{ 'Main.Location' | translate }}</span>
+      <select
+        [(ngModel)]="selectedLocationCode"
+        [disabled]="!selectedLibraryCode || loadingLocations || loading">
+        <option value="">{{ 'Main.SelectLocation' | translate }}</option>
+        <option *ngFor="let location of locations" [value]="location.code">
+          {{ location.name }} ({{ location.code }})
+        </option>
+      </select>
+    </label>
+
+    <button
+      type="button"
+      class="load-button"
+      [disabled]="loading || !selectedLibraryCode || !selectedLocationCode"
+      (click)="loadItems()">
+      {{ loading ? ('Main.Loading' | translate) : ('Main.Load' | translate) }}
+    </button>
+  </div>
+
+  <div class="output-options">
+    <div class="option-group">
+      <div class="option-title">{{ 'Main.OutputColumns' | translate }}</div>
+      <div class="checkbox-grid">
+        <label *ngFor="let column of outputColumns">
+          <input
+            type="checkbox"
+            [(ngModel)]="selectedColumns[column.key]">
+          <span>{{ column.labelKey | translate }}</span>
+        </label>
+      </div>
+    </div>
+
+    <label class="sort-control">
+      <span>{{ 'Main.SortBy' | translate }}</span>
+      <select
+        [(ngModel)]="sortKey"
+        (ngModelChange)="onSortChange()">
+        <option *ngFor="let column of outputColumns" [ngValue]="column.key">
+          {{ column.labelKey | translate }}
+        </option>
+      </select>
+    </label>
+  </div>
+
+  <div class="status" *ngIf="loadingLibraries">{{ 'Main.LoadingLibraries' | translate }}</div>
+  <div class="status" *ngIf="loadingLocations">{{ 'Main.LoadingLocations' | translate }}</div>
+  <div class="status" *ngIf="progressMessage">{{ progressMessage }}</div>
+  <div class="success" *ngIf="resultMessage">{{ resultMessage }}</div>
+  <div class="warning" *ngIf="warningMessage">{{ warningMessage }}</div>
+  <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <ng-container *ngIf="items.length">
+    <div class="preview-header">
+      <h2>{{ 'Main.Preview' | translate }}</h2>
+      <span>{{ 'Main.Count' | translate:{count: items.length} }}</span>
+    </div>
+
+    <div class="table-wrap" *ngIf="hasSelectedOutputColumns; else noColumnsSelected">
+      <table>
+        <thead>
+          <tr>
+            <th *ngFor="let column of selectedOutputColumns">
+              {{ column.labelKey | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items">
+            <td class="clip" *ngFor="let column of selectedOutputColumns">
+              {{ itemValue(item, column.key) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #noColumnsSelected>
+      <div class="warning">{{ 'Main.SelectAtLeastOneColumn' | translate }}</div>
+    </ng-template>
+  </ng-container>
+</div>

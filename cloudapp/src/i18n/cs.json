@@ -1,0 +1,78 @@
+{
+  "Main": {
+    "Title": "Seznam knihovních jednotek",
+    "Intro": "Vyberte dílčí knihovnu a lokaci.",
+    "Library": "Dílčí knihovna",
+    "Location": "Lokace",
+    "SelectLibrary": "Vyberte dílčí knihovnu…",
+    "SelectLocation": "Vyberte lokaci…",
+    "LoadingLibraries": "Načítám číselník knihoven…",
+    "LoadingLocations": "Načítám lokace…",
+    "Load": "Načíst seznam",
+    "Loading": "Načítám…",
+    "Count": "Načteno jednotek: {{count}}",
+    "SruLimit": "SRU vrací nejvýše 10 000 bibliografických záznamů pro jeden dotaz. Výsledek může být omezen.",
+    "Preview": "Náhled",
+    "NoItems": "Ve vybrané knihovně a lokaci nebyly nalezeny žádné jednotky.",
+    "PdfReady": "PDF bylo vytvořeno.",
+    "SearchProgress": "1/2 Vyhledávám tituly: {{current}} z {{total}} záznamů",
+    "ItemsProgress": "2/2 Načítám jednotky: {{current}} z {{total}} titulů",
+    "PrintPdf": "Tisk / PDF",
+    "PrintReady": "Otevřel se tiskový dialog. Pro PDF zvolte v prohlížeči „Uložit jako PDF“.",
+    "PrintButton": "Tisk",
+    "PrintPreviewReady": "Otevřel se náhled tisku. Tlačítkem „Tisk“ vpravo nahoře můžete tisknout nebo uložit jako PDF.",
+    "OutputColumns": "Údaje ve výstupu",
+    "SortBy": "Řadit podle",
+    "SelectAtLeastOneColumn": "Vyberte alespoň jeden údaj pro náhled a tisk."
+  },
+  "Columns": {
+    "CallNumber": "SIGNATURA",
+    "AccessionNumber": "PŘÍRŮSTKOVÉ ČÍSLO",
+    "MmsId": "MMS ID",
+    "Barcode": "ČÁROVÝ KÓD",
+    "Title": "NÁZEV",
+    "Author": "AUTOR",
+    "Year": "ROK",
+    "Description": "POPIS",
+    "InternalNote3": "POZNÁMKA"
+  },
+  "Pdf": {
+    "Library": "Knihovna",
+    "Page": "Strana"
+  },
+  "Errors": {
+    "Init": "Nepodařilo se získat informace o prostředí Almy.",
+    "Libraries": "Nepodařilo se načíst číselník dílčích knihoven z Almy.",
+    "Locations": "Nepodařilo se načíst lokace vybrané knihovny.",
+    "SelectBoth": "Vyberte dílčí knihovnu i lokaci.",
+    "SruUnavailable": "Nelze použít Alma SRU. Zkontrolujte, zda je v instituci aktivní SRU integration profile.",
+    "SruIndexes": "V SRU Explain nebyly nalezeny indexy pro Item Library a Item Location. Musí být dostupné mezi vyhledávacími indexy Almy.",
+    "SruQuery": "SRU dotaz pro vybranou knihovnu a lokaci se nepodařilo provést.",
+    "Items": "Při načítání knihovních jednotek došlo k chybě.",
+    "SruConfig": "SRU není nakonfigurováno. Nastavte SRU URL, uživatelské jméno a heslo v konfiguraci Cloud App.",
+    "SruAuth": "SRU odmítlo přihlášení. Zkontrolujte uživatelské jméno a heslo v konfiguraci Cloud App.",
+    "PopupBlocked": "Prohlížeč zablokoval tiskové okno. Povolte vyskakovací okna pro Almu.",
+    "Print": "Tiskové okno se nepodařilo vytvořit.",
+    "SruCredentialsIncomplete": "Vyplňte uživatelské jméno i heslo, nebo ponechte obě pole prázdná pro anonymní SRU."
+  },
+  "Config": {
+    "Back": "Zpět na seznam",
+    "Title": "Konfigurace",
+    "Intro": "Nastavte SRU a volitelné texty používané ve výstupu aplikace.",
+    "Loading": "Načítám konfiguraci…",
+    "SruUrl": "Vlastní SRU URL (volitelné)",
+    "SruUrlHint": "Můžete zadat celou URL (např. https://alma.example.edu/view/sru/INSTITUTION_CODE) nebo jen cestu /view/sru/INSTITUTION_CODE. Pokud pole necháte prázdné, použije se standardní Alma SRU.",
+    "Username": "SRU uživatelské jméno (volitelné)",
+    "Password": "SRU heslo (volitelné)",
+    "SecurityNote": "Pro anonymní SRU ponechte uživatelské jméno a heslo prázdné. Pokud SRU vyžaduje přihlášení, vyplňte obě pole.",
+    "Save": "Uložit konfiguraci",
+    "Saved": "Uloženo.",
+    "Errors": {
+      "Load": "Konfiguraci se nepodařilo načíst.",
+      "Save": "Konfiguraci se nepodařilo uložit."
+    },
+    "HeaderLabelCs": "Text před názvem knihovny – česky",
+    "HeaderLabelEn": "Text před názvem knihovny – anglicky",
+    "HeaderLabelHint": "Výchozí hodnoty jsou „Knihovna“ / „Library“. Instituce si je může přepsat, např. na „ČVUT“ / „CTU“."
+  }
+}

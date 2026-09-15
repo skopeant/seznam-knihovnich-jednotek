@@ -1,0 +1,78 @@
+{
+  "Main": {
+    "Title": "Physical Items List",
+    "Intro": "Select a library and location.",
+    "Library": "Library",
+    "Location": "Location",
+    "SelectLibrary": "Select a library…",
+    "SelectLocation": "Select a location…",
+    "LoadingLibraries": "Loading libraries…",
+    "LoadingLocations": "Loading locations…",
+    "Load": "Load list",
+    "Loading": "Loading…",
+    "Count": "Items loaded: {{count}}",
+    "SruLimit": "SRU returns at most 10,000 bibliographic records for one query. The result may be limited.",
+    "Preview": "Preview",
+    "NoItems": "No items were found in the selected library and location.",
+    "PdfReady": "PDF has been created.",
+    "SearchProgress": "1/2 Searching titles: {{current}} of {{total}} records",
+    "ItemsProgress": "2/2 Loading items: {{current}} of {{total}} titles",
+    "PrintPdf": "Print / PDF",
+    "PrintReady": "The print dialog has opened. To create a PDF, choose “Save as PDF” in your browser.",
+    "PrintButton": "Print",
+    "PrintPreviewReady": "The print preview has opened. Use the “Print” button in the upper-right corner to print or save as PDF.",
+    "OutputColumns": "Output fields",
+    "SortBy": "Sort by",
+    "SelectAtLeastOneColumn": "Select at least one field for preview and printing."
+  },
+  "Columns": {
+    "CallNumber": "CALL NUMBER",
+    "AccessionNumber": "INVENTORY NUMBER",
+    "MmsId": "MMS ID",
+    "Barcode": "BARCODE",
+    "Title": "TITLE",
+    "Author": "AUTHOR",
+    "Year": "YEAR",
+    "Description": "DESCRIPTION",
+    "InternalNote3": "NOTE"
+  },
+  "Pdf": {
+    "Library": "Library",
+    "Page": "Page"
+  },
+  "Errors": {
+    "Init": "Could not retrieve Alma environment information.",
+    "Libraries": "Could not load the Alma library list.",
+    "Locations": "Could not load locations for the selected library.",
+    "SelectBoth": "Select both a library and a location.",
+    "SruUnavailable": "Alma SRU cannot be used. Check that an SRU integration profile is active for the institution.",
+    "SruIndexes": "SRU Explain did not expose Item Library and Item Location indexes. They must be available among Alma search indexes.",
+    "SruQuery": "The SRU query for the selected library and location failed.",
+    "Items": "An error occurred while loading physical items.",
+    "SruConfig": "SRU is not configured. Set the SRU URL, username and password in the Cloud App configuration.",
+    "SruAuth": "SRU authentication failed. Check the username and password in the Cloud App configuration.",
+    "PopupBlocked": "The browser blocked the print window. Allow pop-up windows for Alma.",
+    "Print": "The print window could not be created.",
+    "SruCredentialsIncomplete": "Enter both username and password, or leave both fields empty for anonymous SRU."
+  },
+  "Config": {
+    "Back": "Back to list",
+    "Title": "Configuration",
+    "Intro": "Configure SRU and optional text used in the app output.",
+    "Loading": "Loading configuration…",
+    "SruUrl": "Custom SRU URL (optional)",
+    "SruUrlHint": "You can enter a full URL (for example https://alma.example.edu/view/sru/INSTITUTION_CODE) or only the path /view/sru/INSTITUTION_CODE. Leave blank to use the standard Alma SRU endpoint.",
+    "Username": "SRU username (optional)",
+    "Password": "SRU password (optional)",
+    "SecurityNote": "For anonymous SRU, leave username and password empty. If SRU requires authentication, enter both fields.",
+    "Save": "Save configuration",
+    "Saved": "Saved.",
+    "Errors": {
+      "Load": "The configuration could not be loaded.",
+      "Save": "The configuration could not be saved."
+    },
+    "HeaderLabelCs": "Text before library name – Czech",
+    "HeaderLabelEn": "Text before library name – English",
+    "HeaderLabelHint": "Defaults are “Knihovna” / “Library”. Each institution can override them, for example “ČVUT” / “CTU”."
+  }
+}

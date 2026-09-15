@@ -1,0 +1,11 @@
+node_modules/
+build/
+dist/
+.ng/
+coverage/
+config.json
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+npm-debug.log*

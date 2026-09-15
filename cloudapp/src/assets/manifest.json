@@ -1,0 +1,53 @@
+{
+   "id": "skopeant/seznam-knihovnich-jednotek",
+   "title": [
+      {
+         "lang": "en",
+         "text": "Physical Items List"
+      },
+      {
+         "lang": "cs",
+         "text": "Seznam knihovních jednotek"
+      }
+   ],
+   "subtitle": [
+      {
+         "lang": "en",
+         "text": "Physical items by library and location"
+      },
+      {
+         "lang": "cs",
+         "text": "Knihovní jednotky podle dílčí knihovny a lokace"
+      }
+   ],
+   "author": "Antonín Skopec",
+   "license": "https://github.com/skopeant/seznam-knihovnich-jednotek/blob/main/LICENSE",
+   "icon": {
+      "type": "font",
+      "value": "fa fa-list-alt"
+   },
+   "contentSecurity": {
+      "connectSrc": [
+         "https://*.alma.exlibrisgroup.com",
+         "http://localhost:4200"
+      ],
+      "sandbox": {
+         "downloads": true,
+         "popups": true,
+         "popups-to-escape-sandbox": true
+      }
+   },
+   "description": [
+      {
+         "lang": "en",
+         "text": "Lists physical items for a selected Alma library and location and creates a compact A4 landscape print/PDF output. Users can choose output fields and sorting. Available fields include call number, inventory number, MMS ID, barcode, title, author, year, description and Internal Note 3. The app uses Alma REST APIs and the institution's Alma SRU service, supports anonymous or Basic Auth SRU, does not use Analytics, and does not modify Alma data."
+      },
+      {
+         "lang": "cs",
+         "text": "Vytváří seznam fyzických knihovních jednotek pro vybranou dílčí knihovnu a lokaci a kompaktní tisk/PDF A4 na šířku. Uživatel si může zvolit zobrazované údaje i způsob řazení. Dostupné údaje zahrnují signaturu, přírůstkové číslo, MMS ID, čárový kód, název, autora, rok, popis a Internal Note 3. Aplikace používá Alma REST API a institucionální Alma SRU, podporuje anonymní SRU i Basic Auth, nepoužívá Analytics a data v Almě nemění."
+      }
+   ],
+   "pages": {
+      "config": "/#/config"
+   }
+}
