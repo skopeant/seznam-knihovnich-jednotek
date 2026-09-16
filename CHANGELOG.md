@@ -1,3 +1,13 @@
+## 1.1.0
+
+- Added support for authenticated Alma SRU in published Cloud Apps via the Ex Libris generic proxy.
+- Cloud App authentication to the proxy uses the Cloud App JWT.
+- SRU Basic Authentication is forwarded through `X-Proxy-Auth`.
+- Anonymous SRU requests continue to be sent directly to Alma.
+- Added `https://api.exldevnetwork.net` to the Cloud App content security configuration.
+- Increased SRU page size from 50 to 100 records to reduce the number of proxy round-trips.
+- Changed the application title to the bilingual form **Seznam knihovních jednotek – Physical Items List** in both Czech and English manifest entries.
+
 # Changelog
 
 ## [1.0.0] - 2026-09-10

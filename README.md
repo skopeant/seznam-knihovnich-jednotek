@@ -104,3 +104,19 @@ MIT License.
 ## Version
 
 1.0.0
+
+
+### Authenticated SRU
+
+Anonymous Alma SRU requests are sent directly. If SRU username and password are configured, the app uses the Ex Libris generic Cloud App proxy (`api.exldevnetwork.net/proxy`) with the Cloud App JWT and `X-Proxy-Auth` to avoid browser CORS preflight failures.
+
+For testing, the app title is bilingual in both Alma UI languages: **Seznam knihovních jednotek – Physical Items List**.
+
+The proxy target is sent in `X-Proxy-Host` as a host name only (without `https://`).
+
+
+### Version 1.1.0
+
+Authenticated SRU requests in published Cloud Apps use the Ex Libris generic proxy with the Cloud App JWT and `X-Proxy-Auth`. Anonymous SRU requests continue to be sent directly. SRU retrieval now uses pages of 100 records to reduce proxy round-trips.
+
+The application title is bilingual in both Alma UI languages: **Seznam knihovních jednotek – Physical Items List**.

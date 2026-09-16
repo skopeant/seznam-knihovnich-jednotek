@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
   CloudAppConfigService,
@@ -116,7 +116,7 @@ export class MainComponent implements OnInit {
   };
   private sruIndexes: SruIndexes | null = null;
 
-  private readonly sruPageSize = 50;
+  private readonly sruPageSize = 100;
   private readonly sruMaxRecords = 10000;
   private readonly itemPageSize = 100;
 
@@ -870,28 +870,46 @@ export class MainComponent implements OnInit {
   private async getSruText(url: string): Promise<string> {
     try {
       if (this.sruConfig.username && this.sruConfig.password) {
-        const authorization = this.basicAuthorization(
+        /*
+         * Authenticated SRU cannot be called directly from a published Cloud App:
+         * the browser sends a CORS preflight request and Alma SRU answers it with 401.
+         *
+         * Use the Ex Libris generic Cloud App proxy instead. The Cloud App JWT
+         * authenticates this app to the proxy and X-Proxy-Auth is forwarded to
+         * the target SRU endpoint as its Authorization header.
+         */
+        const target = new URL(url);
+        const proxyUrl =
+          `https://api.exldevnetwork.net/proxy${target.pathname}${target.search}`;
+        const cloudAppToken = await firstValueFrom(
+          this.eventsService.getAuthToken()
+        );
+        const sruAuthorization = this.basicAuthorization(
           this.sruConfig.username,
           this.sruConfig.password
         );
 
         return await firstValueFrom(
-          this.http.get(url, {
+          this.http.get(proxyUrl, {
             responseType: 'text' as const,
-            headers: {
-              Authorization: authorization
-            }
+            headers: new HttpHeaders({
+              'X-Proxy-Host': target.host,
+              'Authorization': `Bearer ${cloudAppToken}`,
+              'X-Proxy-Auth': sruAuthorization,
+              'Accept': 'application/xml,text/xml,*/*'
+            })
           })
         );
       }
 
+      // Anonymous SRU can be called directly because Alma SRU provides CORS headers.
       return await firstValueFrom(
         this.http.get(url, {
           responseType: 'text' as const
         })
       );
     } catch (e: any) {
-      if (e?.status === 401 || e?.status === 403) {
+      if (e?.status === 401 || e?.status === 403 || e?.status === 407) {
         throw new Error(this.t('Errors.SruAuth'));
       }
       throw e;

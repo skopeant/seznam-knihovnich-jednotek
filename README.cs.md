@@ -103,3 +103,19 @@ MIT License.
 ## Verze
 
 1.0.0
+
+
+### Autentizované SRU
+
+Anonymní Alma SRU se volá přímo. Pokud je v konfiguraci vyplněno SRU jméno a heslo, aplikace používá Ex Libris generic Cloud App proxy (`api.exldevnetwork.net/proxy`) s Cloud App JWT a hlavičkou `X-Proxy-Auth`, aby se obešel problém prohlížeče s CORS preflightem.
+
+Pro test je název aplikace v obou jazycích dvojjazyčný: **Seznam knihovních jednotek – Physical Items List**.
+
+Cíl proxy se posílá v `X-Proxy-Host` pouze jako název hostitele (bez `https://`).
+
+
+### Verze 1.1.0
+
+Autentizované SRU požadavky v publikované Cloud App používají Ex Libris generic proxy s Cloud App JWT a hlavičkou `X-Proxy-Auth`. Anonymní SRU se nadále volá přímo. SRU nyní načítá 100 záznamů na stránku, aby se snížil počet průchodů přes proxy.
+
+Název aplikace je v obou jazycích Almy dvojjazyčný: **Seznam knihovních jednotek – Physical Items List**.

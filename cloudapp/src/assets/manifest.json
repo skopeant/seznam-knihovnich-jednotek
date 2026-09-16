@@ -3,11 +3,11 @@
    "title": [
       {
          "lang": "en",
-         "text": "Physical Items List"
+         "text": "Seznam knihovních jednotek – Physical Items List"
       },
       {
          "lang": "cs",
-         "text": "Seznam knihovních jednotek"
+         "text": "Seznam knihovních jednotek – Physical Items List"
       }
    ],
    "subtitle": [
@@ -29,7 +29,8 @@
    "contentSecurity": {
       "connectSrc": [
          "https://*.alma.exlibrisgroup.com",
-         "http://localhost:4200"
+         "http://localhost:4200",
+         "https://api.exldevnetwork.net"
       ],
       "sandbox": {
          "downloads": true,
