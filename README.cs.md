@@ -102,7 +102,7 @@ MIT License.
 
 ## Verze
 
-1.1.0
+1.2.0
 
 
 ### Autentizované SRU
@@ -119,3 +119,10 @@ Cíl proxy se posílá v `X-Proxy-Host` pouze jako název hostitele (bez `https:
 Autentizované SRU požadavky v publikované Cloud App používají Ex Libris generic proxy s Cloud App JWT a hlavičkou `X-Proxy-Auth`. Anonymní SRU se nadále volá přímo. SRU nyní načítá 100 záznamů na stránku, aby se snížil počet průchodů přes proxy.
 
 Název aplikace je v obou jazycích Almy dvojjazyčný: **Seznam knihovních jednotek – Physical Items List**.
+
+
+### Verze 1.2.0
+
+- Přidáno stažení do CSV pro právě vybrané výstupní sloupce ve stejném pořadí jednotek jako v náhledu.
+- CSV používá oddělovač středník a UTF-8 BOM pro pohodlné otevření v Microsoft Excelu.
+- Opraveno tlačítko **Tisk** v samostatném tiskovém okně. Tisk už nepoužívá inline JavaScript, který může blokovat bezpečnostní politika Cloud App.

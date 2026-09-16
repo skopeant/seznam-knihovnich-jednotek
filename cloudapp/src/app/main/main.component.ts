@@ -661,6 +661,59 @@ export class MainComponent implements OnInit {
     });
   }
 
+  downloadCsv(): void {
+    if (!this.items.length || !this.hasSelectedOutputColumns) return;
+
+    try {
+      const columns = this.selectedOutputColumns;
+      const lines: string[] = [];
+
+      lines.push(
+        columns
+          .map(column => this.csvCell(this.t(column.labelKey)))
+          .join(';')
+      );
+
+      for (const item of this.items) {
+        lines.push(
+          columns
+            .map(column => this.csvCell(this.itemValue(item, column.key)))
+            .join(';')
+        );
+      }
+
+      // UTF-8 BOM + semicolon delimiter work well when opening the file
+      // directly in Czech/European Microsoft Excel installations.
+      const csv = '\uFEFF' + lines.join('\r\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+
+      const libraryCode = this.safeFilePart(
+        this.selectedLibrary?.code || this.selectedLibraryCode
+      );
+      const locationCode = this.safeFilePart(
+        this.selectedLocation?.code || this.selectedLocationCode
+      );
+      const date = new Date().toISOString().slice(0, 10);
+      const filename =
+        `physical-items-${libraryCode}-${locationCode}-${date}.csv`;
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      this.resultMessage = this.t('Main.CsvDownloaded');
+    } catch (e: any) {
+      console.error(e);
+      this.errorMessage = e?.message || this.t('Errors.Csv');
+    }
+  }
+
   printOrSavePdf(): void {
     if (!this.items.length || !this.hasSelectedOutputColumns || this.creatingPrint) return;
 
@@ -834,7 +887,7 @@ export class MainComponent implements OnInit {
 </head>
 <body>
   <div class="screen-only">
-    <button type="button" onclick="window.print()">${this.escapeHtml(this.t('Main.PrintButton'))}</button>
+    <button id="print-button" type="button">${this.escapeHtml(this.t('Main.PrintButton'))}</button>
   </div>
 
   <div class="header">
@@ -856,6 +909,14 @@ export class MainComponent implements OnInit {
       printWindow.document.open();
       printWindow.document.write(html);
       printWindow.document.close();
+
+      const printButton = printWindow.document.getElementById('print-button');
+      if (printButton) {
+        printButton.addEventListener('click', () => {
+          printWindow.focus();
+          printWindow.print();
+        });
+      }
 
       setTimeout(() => printWindow.focus(), 150);
       this.resultMessage = this.t('Main.PrintPreviewReady');
@@ -1012,6 +1073,11 @@ export class MainComponent implements OnInit {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
+  }
+
+  private csvCell(value: string): string {
+    const text = String(value ?? '').replace(/\r?\n/g, ' ').replace(/"/g, '""');
+    return `"${text}"`;
   }
 
   private safeFilePart(value: string): string {

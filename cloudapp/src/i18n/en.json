@@ -20,10 +20,12 @@
     "PrintPdf": "Print / PDF",
     "PrintReady": "The print dialog has opened. To create a PDF, choose “Save as PDF” in your browser.",
     "PrintButton": "Print",
-    "PrintPreviewReady": "The print preview has opened. Use the “Print” button in the upper-right corner to print or save as PDF.",
+    "PrintPreviewReady": "The print preview opened. Use the “Print” button in the upper-right corner to print or save as PDF.",
     "OutputColumns": "Output fields",
     "SortBy": "Sort by",
-    "SelectAtLeastOneColumn": "Select at least one field for preview and printing."
+    "SelectAtLeastOneColumn": "Select at least one field for preview, CSV and printing.",
+    "DownloadCsv": "Download CSV",
+    "CsvDownloaded": "The CSV file was created."
   },
   "Columns": {
     "CallNumber": "CALL NUMBER",
@@ -53,7 +55,8 @@
     "SruAuth": "SRU authentication failed. Check the username and password in the Cloud App configuration.",
     "PopupBlocked": "The browser blocked the print window. Allow pop-up windows for Alma.",
     "Print": "The print window could not be created.",
-    "SruCredentialsIncomplete": "Enter both username and password, or leave both fields empty for anonymous SRU."
+    "SruCredentialsIncomplete": "Enter both username and password, or leave both fields empty for anonymous SRU.",
+    "Csv": "The CSV file could not be created."
   },
   "Config": {
     "Back": "Back to list",

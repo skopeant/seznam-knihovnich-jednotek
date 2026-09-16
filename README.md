@@ -103,7 +103,7 @@ MIT License.
 
 ## Version
 
-1.1.0
+1.2.0
 
 
 ### Authenticated SRU
@@ -120,3 +120,10 @@ The proxy target is sent in `X-Proxy-Host` as a host name only (without `https:/
 Authenticated SRU requests in published Cloud Apps use the Ex Libris generic proxy with the Cloud App JWT and `X-Proxy-Auth`. Anonymous SRU requests continue to be sent directly. SRU retrieval now uses pages of 100 records to reduce proxy round-trips.
 
 The application title is bilingual in both Alma UI languages: **Seznam knihovních jednotek – Physical Items List**.
+
+
+### Version 1.2.0
+
+- Added CSV export for the currently selected output columns, using the same item order as the on-screen list.
+- CSV uses a semicolon delimiter and UTF-8 BOM for convenient opening in Microsoft Excel.
+- Fixed the **Print** button in the separate print-preview window. Printing no longer depends on an inline JavaScript handler, which can be blocked by the Cloud App content security policy.

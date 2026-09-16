@@ -23,7 +23,9 @@
     "PrintPreviewReady": "Otevřel se náhled tisku. Tlačítkem „Tisk“ vpravo nahoře můžete tisknout nebo uložit jako PDF.",
     "OutputColumns": "Údaje ve výstupu",
     "SortBy": "Řadit podle",
-    "SelectAtLeastOneColumn": "Vyberte alespoň jeden údaj pro náhled a tisk."
+    "SelectAtLeastOneColumn": "Vyberte alespoň jeden údaj pro náhled, CSV a tisk.",
+    "DownloadCsv": "Stáhnout CSV",
+    "CsvDownloaded": "CSV soubor byl vytvořen."
   },
   "Columns": {
     "CallNumber": "SIGNATURA",
@@ -53,7 +55,8 @@
     "SruAuth": "SRU odmítlo přihlášení. Zkontrolujte uživatelské jméno a heslo v konfiguraci Cloud App.",
     "PopupBlocked": "Prohlížeč zablokoval tiskové okno. Povolte vyskakovací okna pro Almu.",
     "Print": "Tiskové okno se nepodařilo vytvořit.",
-    "SruCredentialsIncomplete": "Vyplňte uživatelské jméno i heslo, nebo ponechte obě pole prázdná pro anonymní SRU."
+    "SruCredentialsIncomplete": "Vyplňte uživatelské jméno i heslo, nebo ponechte obě pole prázdná pro anonymní SRU.",
+    "Csv": "CSV soubor se nepodařilo vytvořit."
   },
   "Config": {
     "Back": "Zpět na seznam",

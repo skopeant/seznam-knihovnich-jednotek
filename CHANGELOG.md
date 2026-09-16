@@ -1,3 +1,10 @@
+## 1.2.0
+
+- Added CSV export for selected output columns.
+- CSV is UTF-8 with BOM and uses a semicolon delimiter for Excel compatibility.
+- Fixed the Print button in the generated print-preview window by replacing the inline event handler with a programmatically registered click listener.
+- Existing authenticated/anonymous SRU behavior from 1.1.0 remains unchanged.
+
 ## 1.1.0
 
 - Added support for authenticated Alma SRU in published Cloud Apps via the Ex Libris generic proxy.

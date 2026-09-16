@@ -5,14 +5,23 @@
       <p class="intro">{{ 'Main.Intro' | translate }}</p>
     </div>
 
-    <button
-      type="button"
-      class="pdf-button"
-      *ngIf="items.length"
-      [disabled]="loading || creatingPrint || !hasSelectedOutputColumns"
-      (click)="printOrSavePdf()">
-      {{ 'Main.PrintPdf' | translate }}
-    </button>
+    <div class="action-buttons" *ngIf="items.length">
+      <button
+        type="button"
+        class="pdf-button"
+        [disabled]="loading || !hasSelectedOutputColumns"
+        (click)="downloadCsv()">
+        {{ 'Main.DownloadCsv' | translate }}
+      </button>
+
+      <button
+        type="button"
+        class="pdf-button"
+        [disabled]="loading || creatingPrint || !hasSelectedOutputColumns"
+        (click)="printOrSavePdf()">
+        {{ 'Main.PrintPdf' | translate }}
+      </button>
+    </div>
   </div>
 
   <div class="filters">
