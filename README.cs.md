@@ -102,7 +102,7 @@ MIT License.
 
 ## Verze
 
-1.0.0
+1.1.0
 
 
 ### Autentizované SRU
