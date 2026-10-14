@@ -41,11 +41,11 @@
    "description": [
       {
          "lang": "en",
-         "text": "Lists physical items for a selected Alma library and location and creates a compact A4 landscape print/PDF output. Users can choose output fields and sorting. Available fields include call number, inventory number, MMS ID, barcode, title, author, year, description and Internal Note 3. The app uses Alma REST APIs and the institution's Alma SRU service, supports anonymous or Basic Auth SRU, does not use Analytics, and does not modify Alma data."
+         "text": "Lists physical items for a selected Alma library and location and creates a compact A4 landscape print/PDF output. Users can choose output fields and sorting. Available fields include call number, inventory number, MMS ID, barcode, title, author, year, description and Internal Note 3. The app uses Alma SRU to discover bibliographic records by physical location and Alma REST APIs to retrieve and precisely filter the physical items by library and location. It supports anonymous or Basic Auth SRU, does not use Analytics, and does not modify Alma data."
       },
       {
          "lang": "cs",
-         "text": "Vytváří seznam fyzických knihovních jednotek pro vybranou dílčí knihovnu a lokaci a kompaktní tisk/PDF A4 na šířku. Uživatel si může zvolit zobrazované údaje i způsob řazení. Dostupné údaje zahrnují signaturu, přírůstkové číslo, MMS ID, čárový kód, název, autora, rok, popis a Internal Note 3. Aplikace používá Alma REST API a institucionální Alma SRU, podporuje anonymní SRU i Basic Auth, nepoužívá Analytics a data v Almě nemění."
+         "text": "Vytváří seznam fyzických knihovních jednotek pro vybranou dílčí knihovnu a lokaci a kompaktní tisk/PDF A4 na šířku. Uživatel si může zvolit zobrazované údaje i způsob řazení. Dostupné údaje zahrnují signaturu, přírůstkové číslo, MMS ID, čárový kód, název, autora, rok, popis a Internal Note 3. Aplikace používá Alma SRU pro nalezení bibliografických záznamů podle fyzické lokace a Alma REST API pro načtení a přesné filtrování fyzických jednotek podle knihovny a lokace. Podporuje anonymní SRU i Basic Auth, nepoužívá Analytics a data v Almě nemění."
       }
    ],
    "pages": {

@@ -51,7 +51,6 @@ interface OutputColumn {
 }
 
 interface SruIndexes {
-  library: string;
   location: string;
 }
 
@@ -285,7 +284,12 @@ export class MainComponent implements OnInit {
         throw new Error(this.t('Errors.SelectBoth'));
       }
 
-      const mmsIds = await this.searchMmsIds(library, location);
+      // SRU is used only to obtain the bibliographic records which have at least
+      // one item in the selected physical location. The final library + location
+      // filter is deliberately applied to the item data returned by Alma REST.
+      // This mirrors Alma's Physical Items search: one bibliographic record may
+      // contain several matching physical items.
+      const mmsIds = await this.searchMmsIds(location);
 
       if (!mmsIds.length) {
         this.resultMessage = this.t('Main.NoItems');
@@ -317,7 +321,10 @@ export class MainComponent implements OnInit {
 
       this.progressMessage = '';
       this.resultMessage = this.items.length
-        ? this.t('Main.Count', { count: this.items.length })
+        ? this.t('Main.CountWithTitles', {
+            count: this.items.length,
+            titles: mmsIds.length
+          })
         : this.t('Main.NoItems');
 
     } catch (e: any) {
@@ -364,122 +371,89 @@ export class MainComponent implements OnInit {
       }
     }
 
-    const byScore = (
-      tokens: string[],
-      fallbacks: string[]
-    ): string | null => {
-      const scored = candidates.map(c => {
-        const blob = `${c.name} ${c.title}`.toLowerCase().replace(/[^a-z0-9]/g, '');
-        let score = 0;
-        for (const token of tokens) {
-          if (blob.includes(token)) score += 10;
-        }
-        if (blob.includes('item')) score += 5;
-        return { ...c, score };
-      }).filter(x => x.score >= 25)
+    // Prefer Alma's physical-location SRU index when it is exposed by Explain.
+    // Keep conservative fallbacks for other Alma environments.
+    const preferredNames = [
+      'alma.itemPhysicalLocation',
+      'alma.itemLocation',
+      'alma.item_location'
+    ];
+
+    let location: string | null = null;
+    for (const preferred of preferredNames) {
+      const found = candidates.find(
+        c => c.name.toLowerCase() === preferred.toLowerCase()
+      );
+      if (found) {
+        location = found.name;
+        break;
+      }
+    }
+
+    if (!location) {
+      const scored = candidates
+        .map(c => {
+          const name = c.name.toLowerCase();
+          const title = c.title.toLowerCase();
+          let score = 0;
+          if (name.includes('item')) score += 20;
+          if (name.includes('physical')) score += 20;
+          if (name.includes('location')) score += 20;
+          if (title === 'location') score += 30;
+          if (title.includes('physical location')) score += 20;
+          if (title.includes('temporary')) score -= 40;
+          if (title.includes('permanent')) score -= 20;
+          if (title.includes('former')) score -= 40;
+          if (title.includes('electronic')) score -= 40;
+          return { ...c, score };
+        })
+        .filter(c => c.score >= 50)
         .sort((a, b) => b.score - a.score);
 
-      if (scored.length) return scored[0].name;
+      location = scored[0]?.name || null;
+    }
 
-      for (const fallback of fallbacks) {
-        const found = candidates.find(
-          c => c.name.toLowerCase() === fallback.toLowerCase()
-        );
-        if (found) return found.name;
-      }
-      return null;
-    };
-
-    const library = byScore(
-      ['item', 'library'],
-      ['alma.itemLibrary', 'alma.item_library']
-    );
-    const location = byScore(
-      ['item', 'location'],
-      ['alma.itemLocation', 'alma.item_location']
-    );
-
-    if (!library || !location) {
+    if (!location) {
       console.warn('SRU indexes returned by Explain:', candidates);
       throw new Error(this.t('Errors.SruIndexes'));
     }
 
-    return { library, location };
+    console.debug('Using SRU physical location index:', location);
+    return { location };
   }
 
-  private async searchMmsIds(
-    library: AlmaLibrary,
-    location: AlmaLocation
-  ): Promise<string[]> {
+  private async searchMmsIds(location: AlmaLocation): Promise<string[]> {
     if (!this.sruIndexes) {
       throw new Error(this.t('Errors.SruIndexes'));
     }
 
-    // Ex Libris documents that library search indexes use the library ID.
-    // Location ID is attempted first as well. If a particular institution's
-    // SRU configuration expects codes instead, the fallback query handles it.
-    // Alma documents that library indexes use the library ID.
-    // For locations, the Configuration API explicitly says the location CODE
-    // should be used in subsequent queries. Try that documented combination first.
-    const valuePairs = [
-      { library: library.id, location: location.code },
-      { library: library.id, location: location.id },
-      { library: library.code, location: location.code },
-      { library: library.code, location: location.id }
-    ].filter((x, i, arr) =>
-      arr.findIndex(y => y.library === x.library && y.location === x.location) === i
+    // Alma's Location configuration API distinguishes the location code from
+    // the internal ID. Use the location code for the SRU physical-location query.
+    const locationCode = String(location.code || '').trim();
+    if (!locationCode) {
+      throw new Error(this.t('Errors.SruQuery'));
+    }
+
+    console.debug('SRU physical location filter', {
+      locationIndex: this.sruIndexes.location,
+      locationCode
+    });
+
+    return this.executeSruSearch(
+      this.sruIndexes.location,
+      locationCode
     );
-
-    let lastError: any = null;
-    let successfulQuery = false;
-
-    for (const values of valuePairs) {
-      try {
-        console.debug('SRU item filter attempt', {
-          libraryIndex: this.sruIndexes.library,
-          locationIndex: this.sruIndexes.location,
-          libraryValue: values.library,
-          locationValue: values.location
-        });
-
-        const ids = await this.executeSruSearch(
-          this.sruIndexes.library,
-          this.sruIndexes.location,
-          values.library,
-          values.location
-        );
-
-        successfulQuery = true;
-
-        // A syntactically valid SRU query can return zero records even when
-        // a different ID/code representation is required. Do not stop at the
-        // first empty result; try the remaining documented/fallback variants.
-        if (ids.length > 0) {
-          return ids;
-        }
-      } catch (e) {
-        lastError = e;
-      }
-    }
-
-    if (successfulQuery) {
-      return [];
-    }
-
-    throw lastError || new Error(this.t('Errors.SruQuery'));
   }
 
   private async executeSruSearch(
-    libraryIndex: string,
     locationIndex: string,
-    libraryValue: string,
     locationValue: string
   ): Promise<string[]> {
     const query =
-      `${libraryIndex} == "${this.escapeCql(libraryValue)}" and ` +
       `${locationIndex} == "${this.escapeCql(locationValue)}"`;
 
     const mmsIds: string[] = [];
+    const seenMmsIds = new Set<string>();
     let startRecord = 1;
     let total = 0;
     let first = true;
@@ -523,30 +497,52 @@ export class MainComponent implements OnInit {
       }
       first = false;
 
-      const records = Array.from(doc.getElementsByTagNameNS('*', 'record'));
-      let foundThisPage = 0;
+      // IMPORTANT: an SRU response contains an SRU <record> wrapper and, inside
+      // <recordData>, another MARC <record>. Searching for every element named
+      // "record" therefore counts each result twice and breaks pagination.
+      // Use one <recordData> element per SRU result instead. This is also the
+      // correct unit for advancing startRecord.
+      const recordDataNodes = Array.from(
+        doc.getElementsByTagNameNS('*', 'recordData')
+      );
 
-      for (const record of records) {
-        const controls = Array.from(record.getElementsByTagNameNS('*', 'controlfield'));
+      for (const recordData of recordDataNodes) {
+        const controls = Array.from(
+          recordData.getElementsByTagNameNS('*', 'controlfield')
+        );
         const cf001 = controls.find(x => x.getAttribute('tag') === '001');
         const mmsId = (cf001?.textContent || '').trim();
-        if (mmsId && !mmsIds.includes(mmsId)) {
+        if (mmsId && !seenMmsIds.has(mmsId)) {
+          seenMmsIds.add(mmsId);
           mmsIds.push(mmsId);
-          foundThisPage++;
         }
       }
 
+      const limit = Math.min(total, this.sruMaxRecords);
+      const current = recordDataNodes.length
+        ? Math.min(startRecord + recordDataNodes.length - 1, limit)
+        : Math.min(startRecord - 1, limit);
+
       this.progressMessage = this.t('Main.SearchProgress', {
-        current: Math.min(startRecord + records.length - 1, Math.min(total, this.sruMaxRecords)),
-        total: Math.min(total, this.sruMaxRecords)
+        current,
+        total: limit
       });
 
-      if (!records.length || startRecord + records.length > Math.min(total, this.sruMaxRecords)) {
+      if (!recordDataNodes.length || current >= limit) {
         break;
       }
 
-      startRecord += records.length;
-      if (foundThisPage === 0 && records.length === 0) break;
+      // Prefer the SRU-provided next position when available. Fall back to the
+      // actual number of SRU records returned on this page (not MARC nodes).
+      const nextRecordPosition = Number(
+        doc.getElementsByTagNameNS('*', 'nextRecordPosition')[0]?.textContent || 0
+      );
+
+      if (nextRecordPosition > startRecord && nextRecordPosition <= limit) {
+        startRecord = nextRecordPosition;
+      } else {
+        startRecord += recordDataNodes.length;
+      }
     }
 
     return mmsIds;

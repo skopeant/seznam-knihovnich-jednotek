@@ -30,7 +30,8 @@
 
 ## SRU
 - [ ] Institution has an active SRU integration profile.
-- [ ] SRU Explain exposes Item Library and Item Location indexes.
+- [ ] SRU Explain exposes the physical Location index (`alma.itemPhysicalLocation` preferred).
+- [ ] For a location with multiple copies of the same title, the final item count matches Alma Physical Items search, not merely the SRU bibliographic-record count.
 
 ## SRU authentication
 - [ ] Open Cloud App configuration.

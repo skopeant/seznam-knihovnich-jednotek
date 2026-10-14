@@ -25,7 +25,8 @@
     "SortBy": "Řadit podle",
     "SelectAtLeastOneColumn": "Vyberte alespoň jeden údaj pro náhled, CSV a tisk.",
     "DownloadCsv": "Stáhnout CSV",
-    "CsvDownloaded": "CSV soubor byl vytvořen."
+    "CsvDownloaded": "CSV soubor byl vytvořen.",
+    "CountWithTitles": "Načteno jednotek: {{count}} (z {{titles}} bibliografických záznamů)"
   },
   "Columns": {
     "CallNumber": "SIGNATURA",
@@ -48,8 +49,8 @@
     "Locations": "Nepodařilo se načíst lokace vybrané knihovny.",
     "SelectBoth": "Vyberte dílčí knihovnu i lokaci.",
     "SruUnavailable": "Nelze použít Alma SRU. Zkontrolujte, zda je v instituci aktivní SRU integration profile.",
-    "SruIndexes": "V SRU Explain nebyly nalezeny indexy pro Item Library a Item Location. Musí být dostupné mezi vyhledávacími indexy Almy.",
-    "SruQuery": "SRU dotaz pro vybranou knihovnu a lokaci se nepodařilo provést.",
+    "SruIndexes": "V SRU Explain nebyl nalezen index pro fyzickou lokaci (preferovaně alma.itemPhysicalLocation).",
+    "SruQuery": "SRU dotaz pro vybranou lokaci se nepodařilo provést.",
     "Items": "Při načítání knihovních jednotek došlo k chybě.",
     "SruConfig": "SRU není nakonfigurováno. Nastavte SRU URL, uživatelské jméno a heslo v konfiguraci Cloud App.",
     "SruAuth": "SRU odmítlo přihlášení. Zkontrolujte uživatelské jméno a heslo v konfiguraci Cloud App.",

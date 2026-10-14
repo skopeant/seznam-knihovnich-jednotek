@@ -1,3 +1,13 @@
+# Changelog
+
+## 1.3.0
+
+- SRU discovery now uses the physical-location index `alma.itemPhysicalLocation`.
+- The app retrieves all matching bibliographic records from SRU and expands them to physical items through the Alma REST API.
+- Final filtering is performed against the physical item data using the selected library and location, so multiple matching copies under one bibliographic record are preserved.
+- The result status shows both the number of physical items and the number of source bibliographic records.
+- Added the `piscina` 4.9.4 security override while retaining the existing `tar` 7.5.22 override.
+
 ## 1.2.0
 
 - Added CSV export for selected output columns.
@@ -14,8 +24,6 @@
 - Added `https://api.exldevnetwork.net` to the Cloud App content security configuration.
 - Increased SRU page size from 50 to 100 records to reduce the number of proxy round-trips.
 - Changed the application title to the bilingual form **Seznam knihovních jednotek – Physical Items List** in both Czech and English manifest entries.
-
-# Changelog
 
 ## [1.0.0] - 2026-09-10
 

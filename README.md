@@ -32,7 +32,7 @@ It uses:
 
 - `GET /almaws/v1/conf/libraries` for the library selector
 - `GET /almaws/v1/conf/libraries/{libraryCode}/locations` for the location selector
-- Alma SRU to find bibliographic records that have items in the selected library/location
+- Alma SRU to find bibliographic records that have at least one item in the selected physical location
 - `GET /almaws/v1/bibs/{mms_id}/holdings/ALL/items` to retrieve item details
 
 Locations in the selector are sorted by location code using natural numeric ordering and then by location name.
@@ -59,7 +59,7 @@ The institution-wide configuration also contains a configurable Czech and Englis
 
 The settings are stored with Alma `CloudAppConfigService` as institution-wide Cloud App configuration.
 
-The app reads the SRU `explain` response and discovers the Item Library and Item Location search indexes dynamically.
+The app reads the SRU `explain` response and discovers the physical-location index, preferring the verified `alma.itemPhysicalLocation` index. SRU returns bibliographic records; the app then retrieves their physical items through the Alma REST API and applies the selected library + location filter to the item data. One bibliographic record can therefore produce several physical-item rows.
 
 Alma SRU limits a single search to 10,000 bibliographic records. The app displays a warning if this limit is reached.
 
@@ -103,8 +103,14 @@ MIT License.
 
 ## Version
 
-1.2.0
+1.3.0
 
+
+### Version 1.3.0
+
+- Bibliographic discovery through SRU now uses the physical location (`alma.itemPhysicalLocation`).
+- All matching physical items are then retrieved through the Alma REST API and precisely filtered by the selected library and location.
+- A single bibliographic record may contain multiple physical items; the app therefore preserves all matching copies in the resulting list.
 
 ### Authenticated SRU
 

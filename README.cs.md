@@ -31,7 +31,7 @@ Aplikace **nepoužívá Alma Analytics**.
 Používá:
 - `GET /almaws/v1/conf/libraries` pro číselník dílčích knihoven
 - `GET /almaws/v1/conf/libraries/{libraryCode}/locations` pro číselník lokací
-- Alma SRU pro nalezení bibliografických záznamů s jednotkami ve vybrané knihovně/lokaci
+- Alma SRU pro nalezení bibliografických záznamů, které mají alespoň jednu jednotku ve vybrané fyzické lokaci
 - `GET /almaws/v1/bibs/{mms_id}/holdings/ALL/items` pro načtení konkrétních knihovních jednotek
 
 Lokace ve výběru se řadí nejprve přirozeně podle kódu lokace a při shodě podle názvu.
@@ -58,7 +58,7 @@ V centrální konfiguraci lze také nastavit český a anglický prefix záhlav�
 
 Nastavení se ukládá pomocí Alma `CloudAppConfigService` jako centrální konfigurace Cloud App pro instituci.
 
-Aplikace načte SRU `explain` a sama vyhledá indexy Item Library a Item Location.
+Aplikace načte SRU `explain` a vyhledá index fyzické lokace. Preferuje ověřený index `alma.itemPhysicalLocation`. SRU vrací bibliografické záznamy; jejich konkrétní fyzické jednotky aplikace následně načte přes Alma REST API a teprve nad item daty přesně filtruje vybranou dílčí knihovnu i lokaci. Jeden bibliografický záznam tak může ve výsledku vytvořit více řádků jednotek.
 
 Alma SRU omezuje jeden dotaz na maximálně 10 000 bibliografických záznamů. Při dosažení limitu aplikace zobrazí upozornění.
 
@@ -102,8 +102,14 @@ MIT License.
 
 ## Verze
 
-1.2.0
+1.3.0
 
+
+### Verze 1.3.0
+
+- Vyhledávání bibliografických záznamů přes SRU nyní vychází z fyzické lokace (`alma.itemPhysicalLocation`).
+- Všechny odpovídající fyzické jednotky se následně načtou přes Alma REST API a přesně se filtrují podle vybrané dílčí knihovny a lokace.
+- Jeden bibliografický záznam může mít více fyzických jednotek; aplikace je proto ve výsledném seznamu zachová všechny.
 
 ### Autentizované SRU
 
